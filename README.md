@@ -6,3 +6,4 @@ Aby pokazać, że się wszystko gra z Twoim dostępem do repozytorium wpisz się
 + Kamil Gawlik
 + Szymon Matusiak
 + Adam Wudziński
++ Piotr Majcher

@@ -4,3 +4,4 @@ Wskazówki co do prawidłowego skonfigurowania środowiska są dostępne na stro
 
 Aby pokazać, że się wszystko gra z Twoim dostępem do repozytorium wpisz się na poniższą listę:
 + Kamil Gawlik
++ Szymon Matusiak

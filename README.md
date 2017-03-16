@@ -9,6 +9,7 @@ Aby pokazać, że się wszystko gra z Twoim dostępem do repozytorium wpisz się
 + Piotr Majcher
 + Alexander Stolar
 + Krzysztof Mikucki
++ Marcin Chajczyk
 
 KONFIGURACJA PROJEKTU POD DEVELOPMENT:
 1. Backend korzysta z bazy MongoDB, dlatego też trzeba ją mieć ją na komputerze,
@@ -45,4 +46,3 @@ Aplikacje odpalają się na:
 Weryfikacja działania:
     Po wykonaniu punktów 1, 2 i 3 po wpisaniu w przeglądarkę localhost:8080
      powinniśmy dostać ładną, działąjąca stronkę.
-

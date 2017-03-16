@@ -9,3 +9,4 @@ Aby pokazać, że się wszystko gra z Twoim dostępem do repozytorium wpisz się
 + Piotr Majcher
 + Alexander Stolar
 + Krzysztof Mikucki
++ Marcin Chajczyk

@@ -25,7 +25,7 @@ KONFIGURACJA PROJEKTU POD DEVELOPMENT:
 URUCHOMIENIE PROJEKTU:
 1. Uruchomienie jhipster-registry (trzeba to zrobić jako pierwsze!)
     a) otwieracie konsole/cmd
-    b) przechodzicie do folderu <ścieżka_do_projektu>/jhipster-registry
+    b) przechodzicie do folderu <ścieżka_do_projektu>/jregister
     c) wywołujecie ./mvnw
 
 2. Uruchomienie frontendu (dopiero jak uruchomi sie jhipster-registery!)

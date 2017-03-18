@@ -21,6 +21,9 @@ KONFIGURACJA PROJEKTU POD DEVELOPMENT:
        <ścieżka_do_projektu>/back/src/main/resources/config/application-dev.yml
        Tam odnajdujecie spring -> data -> mongodb -> uri. I w tym miejscu podmieniacie na swoj
        adres na którym macie bazę.
+2. Wchodzicie na stronę https://jhipster.github.io/installation/ znajdujecie dział
+    "Local installation with NPM (alternative to Yarn)" i wykonujecie wszystkie punkty
+     (chyba że coś już macie z tego zainstalowane)
 
 URUCHOMIENIE PROJEKTU:
 1. Uruchomienie jhipster-registry (trzeba to zrobić jako pierwsze!)

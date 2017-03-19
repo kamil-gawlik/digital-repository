@@ -14,6 +14,18 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+eureka:
+    instance:
+        appname: frontend
+        instanceId: frontend:${spring.application.instance_id:${random.value}}
+        statusPageUrlPath: ${management.context-path}/info
+        healthCheckUrlPath: ${management.context-path}/health
+        metadata-map:
+            profile: ${spring.profiles.active}
+            version: ${info.project.version}
+ribbon:
+    eureka:
+        enabled: true
 zuul:
     host:
         connect-timeout-millis: 5000
@@ -64,9 +76,6 @@ server:
         cookie:
             http-only: true
 
-info:
-    project:
-        version: #project.version#
 
 # ===================================================================
 # JHipster specific properties

@@ -13,6 +13,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+eureka:
+    client:
+        enabled: false
+    instance:
+        appname: frontend
+        instanceId: frontend:${spring.application.instance_id:${random.value}}
 
 spring:
     application:
@@ -89,7 +95,7 @@ jhipster:
     security:
         authentication:
             jwt:
-                secret: 9dd781dd624fe1f01b29ebb252cb0eafe22d4ac3
+                secret: 57c3b9fe2a7a06976ce58985d1340acc27b0a7c0
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration

@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     record: Record;
     modalRef: NgbModalRef;
     http: Http;
-    recordService: RecordService
+    recordService: RecordService;
 
     constructor(
         private principal: Principal,
@@ -31,10 +31,7 @@ export class HomeComponent implements OnInit {
 
  /*----na potrzeby prezentacji----*/
     newRecord() {
-        console.log('dziala');
-        console.log(this.record.author);
-        console.log(this.record.description);
-        this.recordService.addRecord(this.record)
+        this.recordService.addRecord(this.record);
     }
  /*-------------------------------*/
     ngOnInit() {

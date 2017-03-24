@@ -2,14 +2,14 @@
     <div class="col-md-8 offset-md-2">
         <div class="form-group">
             <label class="form-control-label">Author</label>
-            <input type="author" [(ngModel)]="record.author" class="form-control" placeholder="Name the author">       
+            <input type="text" class="form-control" required [(ngModel)]="record.author" placeholder="Name the author" name="author">       
         </div>
         <div class="form-group">
             <label class="form-control-label">Description</label>
-            <input type="description" [(ngModel)]="record.description" class="form-control" placeholder="Describe the record">
+            <input type="text" class="form-control" required [(ngModel)]="record.description" placeholder="Describe the record" name="description">
         </div>
         <div>
-            <button class="btn btn-primary" (click)="newRecord()">Add record</button>
+            <button type="submit" class="btn btn-primary" (click)="newRecord()">Add record</button>
         </div>
     </div>
 </div>

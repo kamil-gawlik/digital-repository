@@ -20,17 +20,17 @@ export class HomeComponent implements OnInit {
     record: Record;
     modalRef: NgbModalRef;
     http: Http;
-    recordService: RecordService;
 
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
-        private eventManager: EventManager
-    ) {
-        }
+        private eventManager: EventManager,
+        private recordService: RecordService
+    ) {}
 
  /*----na potrzeby prezentacji----*/
-    newRecord() {
+    newRecord(event) {
+        console.log(typeof this.recordService)
         this.recordService.addRecord(this.record);
     }
  /*-------------------------------*/

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FrontendSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
+import {RecordService} from "./home.service";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { HOME_ROUTE, HomeComponent } from './';
     entryComponents: [
     ],
     providers: [
+        RecordService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

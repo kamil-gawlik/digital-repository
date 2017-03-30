@@ -9,6 +9,9 @@
             <input type="text" class="form-control" required [(ngModel)]="record.description" placeholder="Describe the record" name="description">
         </div>
         <div>
+            <input type="file" required [(ngModel)]="record.file" placeholder="File to upload" name="file">
+        </div>
+        <div>
             <button (click)="newRecord()" type="submit" class="btn btn-primary">Add record</button>
         </div>
     </div>

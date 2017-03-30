@@ -1,5 +1,7 @@
 package com.digitalrepository.web.rest;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -30,11 +32,17 @@ public class FileUploadController {
     private ApplicationContext applicationContext;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> handleFileUpload(@RequestBody MultipartFile file, String filename){
+    public ResponseEntity<String> handleFileUpload(@RequestBody MultipartFile file, String author, String description){
         try {
             InputStream inputStream = new BufferedInputStream(file.getInputStream());
             GridFsOperations gridFsOperations = (GridFsOperations)applicationContext.getBean("gridFsTemplate");
-            gridFsOperations.store(inputStream,filename);
+
+
+            DBObject metaData = new BasicDBObject();
+            metaData.put("author", author);
+            metaData.put("description", description);
+
+            gridFsOperations.store(inputStream, file.getOriginalFilename(), metaData);
 
         }catch (IOException ioE){
             return new ResponseEntity<String>("Uploading failed", HttpStatus.CONFLICT);
@@ -51,6 +59,7 @@ public class FileUploadController {
         String response = "";
         for(GridFSDBFile file : result){
             response += file.getFilename();
+            response += file.getMetaData();
         }
         return new ResponseEntity<String>(response, HttpStatus.OK);
     }

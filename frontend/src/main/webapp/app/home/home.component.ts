@@ -25,15 +25,16 @@ export class HomeComponent implements OnInit {
         private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: EventManager,
-        private recordService: RecordService
-    ) {}
+        private recordService: RecordService,
+    ) {
+        this.record = new Record();
+    }
 
- /*----na potrzeby prezentacji----*/
     newRecord(event) {
-        console.log(typeof this.recordService)
+        console.log(typeof this.recordService);
         this.recordService.addRecord(this.record);
     }
- /*-------------------------------*/
+
     ngOnInit() {
         this.principal.identity().then((account) => {
             this.account = account;

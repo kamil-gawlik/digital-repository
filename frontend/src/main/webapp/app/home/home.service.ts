@@ -14,7 +14,7 @@ export class RecordService {
     constructor(private http: Http) { }
 
     addRecord(record: Record) {
-        console.log("RecordService.addRecord executed.")
+        console.log('RecordService.addRecord executed.');
         let body = JSON.stringify( record );
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });

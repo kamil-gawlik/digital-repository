@@ -15,9 +15,12 @@ export class RecordService {
 
     addRecord(record: Record) {
         console.log('RecordService.addRecord executed.');
+        console.log(record.author);
+        console.log(record.description);
         let body = JSON.stringify( record );
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
+        console.log(body);
 
         return this.http.post(this.recordUrl, body, options)
             .map(this.extractData)

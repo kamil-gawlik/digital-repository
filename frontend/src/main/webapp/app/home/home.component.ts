@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     record: Record;
     modalRef: NgbModalRef;
     http: Http;
-    files : File[] = [];
+    files: File[] = [];
 
     constructor(
         private principal: Principal,
@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
         this.files.push(event.target.files[0]);
         this.record.file = event.target.files[0];
         let files = [].slice.call(event.target.files);
+        this.record.files = files;
         input.value = this.files.map(f => f.name).join(', ');
         for (let item of this.files) {
             console.log(item.name);

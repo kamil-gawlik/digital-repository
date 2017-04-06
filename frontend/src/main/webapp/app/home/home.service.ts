@@ -16,7 +16,7 @@ export class RecordService {
     addRecord(record: Record) {
         let formData = new FormData();
         console.log(formData);
-        formData.append('file', record.file, record.file.name);
+        formData.append('filesList', record.file);
         console.log(formData);
         formData.append('recordName', record.recordName);
         console.log(formData);

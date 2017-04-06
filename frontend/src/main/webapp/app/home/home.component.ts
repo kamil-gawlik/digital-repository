@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
         this.files.push(event.target.files[0]);
         this.record.file = event.target.files[0];
         let files = [].slice.call(event.target.files);
-        this.record.files = files;
+        this.record.filesList = files;
         input.value = this.files.map(f => f.name).join(', ');
         for (let item of this.files) {
             console.log(item.name);

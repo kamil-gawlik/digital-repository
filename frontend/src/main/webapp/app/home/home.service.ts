@@ -15,8 +15,8 @@ export class RecordService {
 
     addRecord(record: Record) {
         let formData = new FormData();
-        if (record.files.length > 0 ) {
-           for (let item of record.files) {
+        if (record.filesList.length > 0 ) {
+           for (let item of record.filesList) {
             formData.append('filesList', item, item.name);
             } 
         } else {

@@ -35,6 +35,11 @@ export class HomeComponent implements OnInit {
         this.recordService.addRecord(this.record);
     }
 
+    fileChange(e) {
+        this.record.file = e.target.files[0];
+        console.log(this.record.file);
+    }
+
     ngOnInit() {
         this.principal.identity().then((account) => {
             this.account = account;

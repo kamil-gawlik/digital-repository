@@ -14,15 +14,22 @@ export class RecordService {
     constructor(private http: Http) { }
 
     addRecord(record: Record) {
-        console.log('RecordService.addRecord executed.');
-        console.log(record.author);
-        console.log(record.description);
-        let body = JSON.stringify( record );
-        let headers = new Headers({ 'Content-Type': 'application/form-data' });
-        let options = new RequestOptions({ headers: headers });
-        console.log(body);
-
-        this.http.post(this.recordUrl, body, options).subscribe();
+        let formData = new FormData();
+        console.log(formData);
+        formData.append('file', record.file, record.file.name);
+        console.log(formData);
+        formData.append('recordName', record.recordName);
+        console.log(formData);
+        formData.append('author', record.author);
+        console.log(formData);
+        formData.append('description', record.description);
+        console.log(formData);
+        
+        this.http.post(this.recordUrl, formData).subscribe(
+            data => {
+                console.log(data.json());
+            }
+        );
     }
 
     private extractData(res: Response) {

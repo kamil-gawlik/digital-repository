@@ -12,8 +12,9 @@
             <label class="form-control-label">Description</label>
             <input type="text" class="form-control" required [ngModel]="record?.description" (ngModelChange)="record.description = $event" placeholder="Describe the record" name="description">
         </div>
-        <div>
-            <input type="file" required [ngModel]="record?.file" (ngModelChange)="record.file = $event" placeholder="File to upload" name="file">
+        <div class="form-group">
+            <label class="form-control-label">Files</label>
+            <input type="file" class="form-control" (change)="fileChange($event)" placeholder="File to upload" name="file">
         </div>
         <div>
             <button (click)="newRecord()" type="submit" class="btn btn-primary">Add record</button>

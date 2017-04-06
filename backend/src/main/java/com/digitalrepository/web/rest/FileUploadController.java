@@ -1,23 +1,16 @@
 package com.digitalrepository.web.rest;
 
-import com.digitalrepository.web.rest.util.MultipartToFileConverter;
-import com.digitalrepository.web.rest.util.MultipartToInputStreamConverter;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.Bytes;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
-import com.mongodb.util.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -36,7 +36,9 @@ public class FileUploadController {
     @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<String> handleSimpleInput(@RequestBody SimpleData simpleData ){
-
+        System.out.println(simpleData.getAuthor());
+        System.out.println(simpleData.getDescription());
+        System.out.println(simpleData.getRecordName());
         return new ResponseEntity<String>
             (simpleData.getRecordName(), HttpStatus.OK);
 

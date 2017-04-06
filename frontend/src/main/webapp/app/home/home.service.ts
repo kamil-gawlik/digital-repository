@@ -15,12 +15,18 @@ export class RecordService {
 
     addRecord(record: Record) {
         let formData = new FormData();
-        if (record.files.length > 0 ) {
-           for (let item of record.files) {
-                formData.append('filesList', item);
+        if (record.filesList.length > 0 ) {
+           for (let item of record.filesList) {
+            formData.append('filesList', item, item.name);
             } 
+        } else {
+            let body = JSON.stringify( record );
+            let headers = new Headers({ 'Content-Type': 'multipart/form-data' });
+            let options = new RequestOptions({ headers: headers });
+            this.http.post(this.recordUrl, body, options).subscribe();
+            return
         }
-        
+
         formData.append('recordName', record.recordName);
         formData.append('author', record.author);
         formData.append('description', record.description);

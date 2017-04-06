@@ -21,10 +21,12 @@ export class RecordService {
             } 
         } else {
             let body = JSON.stringify( record );
-            let headers = new Headers({ 'Content-Type': 'application/json' });
+            console.log(body);
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json');
             let options = new RequestOptions({ headers: headers });
             this.http.post(this.recordUrl, body, options).subscribe();
-            return
+            return;
         }
 
         formData.append('recordName', record.recordName);

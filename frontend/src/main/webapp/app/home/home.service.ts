@@ -18,7 +18,7 @@ export class RecordService {
         console.log(record.author);
         console.log(record.description);
         let body = JSON.stringify( record );
-        let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        let headers = new Headers({ 'Content-Type': 'application/form-data' });
         let options = new RequestOptions({ headers: headers });
         console.log(body);
 

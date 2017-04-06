@@ -9,7 +9,7 @@ import {Record} from '../shared/record.model';
 @Injectable()
 export class RecordService {
 
-    private recordUrl = 'localhost:8081/api/publications';
+    private recordUrl = 'http://localhost:8081/api/publications';
 
     constructor(private http: Http) { }
 

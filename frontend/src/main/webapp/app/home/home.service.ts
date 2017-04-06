@@ -24,8 +24,12 @@ export class RecordService {
         console.log(formData);
         formData.append('description', record.description);
         console.log(formData);
+
+        let headers = new Headers();
+        headers.append('Content-Type', 'multipart/form-data');
+        let options = new RequestOptions({headers: headers});
         
-        this.http.post(this.recordUrl, formData).subscribe(
+        this.http.post(this.recordUrl, formData, options).subscribe(
             data => {
                 console.log(data.json());
             }

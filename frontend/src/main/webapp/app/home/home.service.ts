@@ -18,13 +18,11 @@ export class RecordService {
         console.log(record.author);
         console.log(record.description);
         let body = JSON.stringify( record );
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
         let options = new RequestOptions({ headers: headers });
         console.log(body);
 
-        return this.http.post(this.recordUrl, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+        this.http.post(this.recordUrl, body, options).subscribe();
     }
 
     private extractData(res: Response) {

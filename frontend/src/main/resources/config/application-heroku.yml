@@ -19,6 +19,6 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         maximumPoolSize: 10
-        url: ${JDBC_DATABASE_URL}
-        username: ${JDBC_DATABASE_USERNAME}
-        password: ${JDBC_DATABASE_PASSWORD}
+        url: jdbc:h2:file:./target/h2db/db/frontend;DB_CLOSE_DELAY=-1
+        username: frontend
+        password:

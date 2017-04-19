@@ -33,20 +33,9 @@ public class FileUploadController {
     @Autowired
     private GridFsTemplate gridFsTemplate;
 
-    @CrossOrigin(origins = "http://localhost:8080")
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<String> handleSimpleInput(@RequestBody SimpleData simpleData ){
-        System.out.println(simpleData.getAuthor());
-        System.out.println(simpleData.getDescription());
-        System.out.println(simpleData.getRecordName());
-        return new ResponseEntity<String>
-            (simpleData.getRecordName(), HttpStatus.OK);
-
-    }
-
-    @CrossOrigin(origins = "http://localhost:8080")
-    @RequestMapping(value = "/foo", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> handleFileUpload(@RequestBody List<MultipartFile> filesList, String recordName, String author, String description){
+    @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> handleFileUpload(@RequestBody(required = false) List<MultipartFile> filesList,
+                                                   String recordName, String author, String description){
 
         try {
 

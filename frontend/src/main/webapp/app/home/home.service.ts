@@ -9,7 +9,7 @@ import {Record} from '../shared/record.model';
 @Injectable()
 export class RecordService {
 
-    private recordUrl = 'http://localhost:8080/backend/api/upload';
+    private recordUrl = 'http://localhost:8081/api/upload';
 
     constructor(private http: Http) { }
 
@@ -18,23 +18,13 @@ export class RecordService {
         if (record.filesList.length > 0 ) {
            for (let item of record.filesList) {
             formData.append('filesList', item, item.name);
-            } 
-        } else {
-            let body = JSON.stringify( record );
-            console.log(body);
-            let headers = new Headers();
-            headers.append('Content-Type', 'application/json');
-            let options = new RequestOptions({ headers: headers });
-            this.http.post(this.recordUrl, body, options).subscribe();
-            return;
-        }
+            }
 
         formData.append('recordName', record.recordName);
         formData.append('author', record.author);
         formData.append('description', record.description);
 
         let headers = new Headers();
-        headers.append('Content-Type', 'multipart/form-data');
         let options = new RequestOptions({headers: headers});
         this.http.post(this.recordUrl, formData, options).subscribe(
             data => {

@@ -19,6 +19,8 @@ export class RecordService {
            for (let item of record.filesList) {
             formData.append('filesList', item, item.name);
             }
+        }
+
 
         formData.append('recordName', record.recordName);
         formData.append('author', record.author);

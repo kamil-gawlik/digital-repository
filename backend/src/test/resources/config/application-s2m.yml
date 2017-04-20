@@ -1,0 +1,4 @@
+jhipster:
+    swagger:
+        contactName: com.digitalrepository
+        contactEmail: com.digitalrepository@example.org

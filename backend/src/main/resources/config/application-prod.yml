@@ -33,7 +33,7 @@ spring:
             enabled: false
     data:
         mongodb:
-            uri: mongodb://localhost:27017
+            uri: ${MONGODB_URI}
             database: backend
     mail:
         host: localhost

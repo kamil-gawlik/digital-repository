@@ -24,6 +24,7 @@
     "jhiPrefix": "jhi",
     "skipClient": true,
     "skipUserManagement": true,
-    "clientPackageManager": "yarn"
+    "clientPackageManager": "yarn",
+    "herokuAppName": "digital-repository-backend"
   }
 }

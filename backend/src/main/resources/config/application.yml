@@ -54,6 +54,12 @@ spring:
             enabled: false
     thymeleaf:
         mode: XHTML
+    http:
+        multipart:
+          max-file-size: -1 # Sets the maximum multipart file size to unlimited
+          max-request-size: -1 # Sets the maximum request multipart files size to unlimited
+
+
 
 security:
     basic:

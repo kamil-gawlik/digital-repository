@@ -1,16 +1,16 @@
 package com.digitalrepository.web.rest;
 
-import com.digitalrepository.web.rest.util.MultipartToInputStreamConverter;
-import com.mongodb.BasicDBList;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
 import com.mongodb.BasicDBObject;
-import com.mongodb.Bytes;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,6 +52,26 @@ public class FileUploadController {
                 metaData.put("description", description);
                 metaData.put("content-type", file.getContentType());
 
+                try {
+                    DBObject extractedMetadata = new BasicDBObject();
+                    Metadata innerMetadata = ImageMetadataReader.readMetadata(file.getInputStream());
+                    for (Directory directory : innerMetadata.getDirectories()) {
+                        for (Tag tag : directory.getTags()) {
+                            System.out.format("[%s] - %s = %s",
+                                directory.getName(), tag.getTagName(), tag.getDescription());
+                            extractedMetadata.put(tag.getTagName(),tag.getDescription());
+                        }
+                        if (directory.hasErrors()) {
+                            for (String error : directory.getErrors()) {
+                                System.err.format("ERROR: %s", error);
+                            }
+                        }
+                        metaData.put("extracted-metadata",extractedMetadata);
+                    }                } catch (ImageProcessingException e) {
+                    e.printStackTrace();
+                }
+
+
 
                 /**
                  * Save file to the MongoDB
@@ -72,6 +92,7 @@ public class FileUploadController {
         String response = "";
         for(GridFSDBFile file : result){
             response += file.getMetaData();
+            response += "\n";
         }
         return new ResponseEntity<String>(response, HttpStatus.OK);
     }

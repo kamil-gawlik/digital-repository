@@ -51,18 +51,20 @@ public class FileUploadController {
                 metaData.put("content-type", file.getContentType());
 
                 try {
+                    DBObject extractedMetadata = new BasicDBObject();
                     Metadata innerMetadata = ImageMetadataReader.readMetadata(file.getInputStream());
                     for (Directory directory : innerMetadata.getDirectories()) {
                         for (Tag tag : directory.getTags()) {
                             System.out.format("[%s] - %s = %s",
                                 directory.getName(), tag.getTagName(), tag.getDescription());
-                            metaData.put(tag.getTagName(),tag.getDescription());
+                            extractedMetadata.put(tag.getTagName(),tag.getDescription());
                         }
                         if (directory.hasErrors()) {
                             for (String error : directory.getErrors()) {
                                 System.err.format("ERROR: %s", error);
                             }
                         }
+                        metaData.put("extracted-metadata",extractedMetadata);
                     }                } catch (ImageProcessingException e) {
                     e.printStackTrace();
                 }

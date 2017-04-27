@@ -36,6 +36,7 @@ export class RecordService {
 
     private extractData(res: Response) {
         let body = res.json();
+        alert(res.text);
         return body.data || {};
     }
 

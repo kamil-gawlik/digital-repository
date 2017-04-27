@@ -1,5 +1,7 @@
 package com.digitalrepository.web.rest;
 
+import com.digitalrepository.web.rest.util.AbstractMetadataExtractor;
+import com.digitalrepository.web.rest.util.ImageMetadataExtractor;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
@@ -42,6 +44,7 @@ public class FileUploadController {
             //For each file included in the record
             for(MultipartFile file : filesList){
 
+
                 /**
                  * Create metadate for the file
                  */
@@ -52,27 +55,21 @@ public class FileUploadController {
                 metaData.put("description", description);
                 metaData.put("content-type", file.getContentType());
 
+                /**
+                 * Extract files metadata
+                 */
+                //For now only works for image files - need to make a switch here that would choose
+                //the correct metadata extractor according to the file content type
+                AbstractMetadataExtractor amext = new ImageMetadataExtractor(file.getInputStream());
+
+                DBObject extractedMetadata = new BasicDBObject();
                 try {
-                    DBObject extractedMetadata = new BasicDBObject();
-                    Metadata innerMetadata = ImageMetadataReader.readMetadata(file.getInputStream());
-                    for (Directory directory : innerMetadata.getDirectories()) {
-                        for (Tag tag : directory.getTags()) {
-                            System.out.format("[%s] - %s = %s",
-                                directory.getName(), tag.getTagName(), tag.getDescription());
-                            extractedMetadata.put(tag.getTagName(),tag.getDescription());
-                        }
-                        if (directory.hasErrors()) {
-                            for (String error : directory.getErrors()) {
-                                System.err.format("ERROR: %s", error);
-                            }
-                        }
-                        metaData.put("extracted-metadata",extractedMetadata);
-                    }                } catch (ImageProcessingException e) {
+                    extractedMetadata = amext.getMetadata();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
-
+                metaData.put("extracted-metadata", extractedMetadata);
+                
                 /**
                  * Save file to the MongoDB
                  */

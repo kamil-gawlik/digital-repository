@@ -23,7 +23,7 @@ export class RecordService {
 
 
         formData.append('recordName', record.recordName);
-        formData.append('author', record.author);
+        formData.append('user', record.user);
         formData.append('description', record.description);
 
         let headers = new Headers();

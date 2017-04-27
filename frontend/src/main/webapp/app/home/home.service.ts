@@ -28,16 +28,10 @@ export class RecordService {
 
         let headers = new Headers();
         let options = new RequestOptions({headers: headers});
-        this.http.post(this.recordUrl, formData, options).map(res => {
-            // Just to point out that response can be managed
-            if(res.status < 200 || res.status >= 300) {
-                alert(res.text);
-            } else {
-                alert(res.text);
-            }
-        }).subscribe(
-            data => { }
-        );
+        this.http.post(this.recordUrl, formData, options)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
     }
 
     private extractData(res: Response) {

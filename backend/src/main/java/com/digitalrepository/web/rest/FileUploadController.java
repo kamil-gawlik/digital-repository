@@ -1,16 +1,15 @@
 package com.digitalrepository.web.rest;
 
-import com.digitalrepository.web.rest.util.MultipartToInputStreamConverter;
-import com.mongodb.BasicDBList;
+import com.digitalrepository.domain.Header;
+import com.digitalrepository.repository.RecordHeaderRepository;
+import com.digitalrepository.web.rest.util.AbstractMetadataExtractor;
+import com.digitalrepository.web.rest.util.ImageMetadataExtractor;
 import com.mongodb.BasicDBObject;
-import com.mongodb.Bytes;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,27 +31,52 @@ import java.util.List;
 public class FileUploadController {
 
     @Autowired
+    private RecordHeaderRepository recordHeaderRepository;
+
+    @Autowired
     private GridFsTemplate gridFsTemplate;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> handleFileUpload(@RequestBody(required = false) List<MultipartFile> filesList,
-                                                   String recordName, String author, String description){
+                                                   String recordName, String user, String description){
+
+        /**
+         * Create record header and add it to the Database
+         */
+        Header header = new Header(recordName, user, description, new ArrayList<>());
+        for(MultipartFile file : filesList)
+            header.getFileLinks().add(file.getOriginalFilename());
+
+        recordHeaderRepository.save(header);
+        String record_id = header.getId();
 
         try {
-
             //For each file included in the record
             for(MultipartFile file : filesList){
-
                 /**
-                 * Create metadate for the file
+                 * Create metadata for the file
                  */
                 DBObject metaData = new BasicDBObject();
-                metaData.put("record-name", recordName);
+                metaData.put("record-id", record_id);
                 metaData.put("filename", file.getOriginalFilename());
-                metaData.put("author", author);
+                metaData.put("user", user);
                 metaData.put("description", description);
                 metaData.put("content-type", file.getContentType());
 
+                /**
+                 * Extract files metadata
+                 */
+                //For now only works for image files - need to make a switch here that would choose
+                //the correct metadata extractor according to the file content type
+                AbstractMetadataExtractor amext = new ImageMetadataExtractor(file.getInputStream());
+
+                DBObject extractedMetadata = new BasicDBObject();
+                try {
+                    extractedMetadata = amext.getMetadata();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                metaData.put("extracted-metadata", extractedMetadata);
 
                 /**
                  * Save file to the MongoDB
@@ -67,11 +92,25 @@ public class FileUploadController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<String> handleFileFetching(@RequestParam("record-name")String recordName){
 
-        List<GridFSDBFile> result = gridFsTemplate.find(
-            new Query().addCriteria(Criteria.where("metadata.record-name").is(recordName)));
         String response = "";
+
+        Header header = recordHeaderRepository.findByRecordName(recordName);
+        if(header == null)
+            return null;
+        response += "HEADER\n";
+        response += header.getId() + "\n";
+        response += header.getRecordName()+ "\n";
+        response += header.getUser()+ "\n";
+        response += header.getDescription()+ "\n";
+        response += header.getFileLinks().toString()+ "\n";
+        response += "\n";
+
+        List<GridFSDBFile> result = gridFsTemplate.find(
+            new Query().addCriteria(Criteria.where("metadata.record-id").is(header.getId())));
+
         for(GridFSDBFile file : result){
             response += file.getMetaData();
+            response += "\n";
         }
         return new ResponseEntity<String>(response, HttpStatus.OK);
     }

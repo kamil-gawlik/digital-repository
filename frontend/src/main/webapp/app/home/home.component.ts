@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EventManager} from 'ng-jhipster';
 import { Http } from '@angular/http';
@@ -19,6 +20,8 @@ export class HomeComponent implements OnInit {
     account: Account;
     record: Record;
     modalRef: NgbModalRef;
+    dialogRef: MdDialogRef<any>;
+    fileForm: MdDialog;
     http: Http;
     files: File[] = [];
 
@@ -45,6 +48,10 @@ export class HomeComponent implements OnInit {
         for (let item of this.files) {
             console.log(item.name);
         }
+        this.dialogRef = this.fileForm.open(DialogComponent);
+        this.dialogRef.afterClosed().subscribe(result => {
+            this.dialogRef = null;
+    });
     }
 
     ngOnInit() {
@@ -69,4 +76,15 @@ export class HomeComponent implements OnInit {
     login() {
         this.modalRef = this.loginModalService.open();
     }
+}
+
+@Component({
+  selector: 'jhi-your-dialog-selector',
+  template: `
+  <h2>Hi! I am modal dialog!</h2>
+  <button md-raised-button (click)="dialogRef.close()">Close dialog</button>`
+})
+
+export class DialogComponent {
+  constructor(public dialogRef: MdDialogRef<any>) { }
 }

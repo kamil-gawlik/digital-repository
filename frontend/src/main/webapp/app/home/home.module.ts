@@ -1,21 +1,24 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { MdDialogModule } from '@angular/material';
 
 import { FrontendSharedModule } from '../shared';
 
-import { HOME_ROUTE, HomeComponent } from './';
+import { HOME_ROUTE, HomeComponent, DialogComponent } from './';
 import {RecordService} from './home.service';
 
 
 @NgModule({
     imports: [
         FrontendSharedModule,
-        RouterModule.forRoot([ HOME_ROUTE ], { useHash: true })
+        RouterModule.forRoot([ HOME_ROUTE ], { useHash: true }),
+        MdDialogModule
     ],
     declarations: [
-        HomeComponent,
+        HomeComponent
     ],
     entryComponents: [
+       
     ],
     providers: [
         RecordService

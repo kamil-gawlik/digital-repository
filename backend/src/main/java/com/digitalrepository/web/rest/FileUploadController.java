@@ -7,6 +7,7 @@ import com.digitalrepository.web.rest.util.ImageMetadataExtractor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,10 +17,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.spring.web.json.Json;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.http.MediaType.ALL;
 
 /**
  * A simple controller for uploading files.

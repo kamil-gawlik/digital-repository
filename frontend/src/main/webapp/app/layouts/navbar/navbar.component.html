@@ -4,9 +4,15 @@
             <span class="navbar-brand">Digital Repository</span><span class="navbar-version">{{version}}</span>
         </a>
     </div>
-    <div>
+    <!--<div>
         <a class="nav-link" routerLink="addNewRecord" routerLinkActive="active">
             <span class="navbar-brand">Add new record</span>
+        </a>
+    </div> -->
+    <div class="navbar-nav">
+        <a class="nav-search">
+            <input type="text" class="nav-searchBox" placeholder="Search..." name="SearchBox">
+            <button (click)="searchRecords()" type="submit" class="nav-searchButton" name="searchButton">Search</button>
         </a>
     </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">

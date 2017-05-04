@@ -38,6 +38,20 @@ Navbar
     font-weight: 400;
 }
 
+.jh-navbar a.nav-search {
+    color: #ccc;
+    display: inline-flex;
+}
+.jh-navbar input.nav-searchBox {
+    width: 400px;
+    margin-inline-end: 20px;
+}
+.jh-navbar button.nav-searchButton {
+    background: #ccc;
+    color: #353d47;
+    height: 35px;
+}
+
 .jh-navbar .jh-navbar-toggler {
     color: #ccc;
     font-size: 1.5em;

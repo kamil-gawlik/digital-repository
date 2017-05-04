@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Http } from '@angular/http';
 
 import { ProfileService } from '../profiles/profile.service'; // FIXME barrel doesnt work here
 import { Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
+import { Search } from '../../shared/search.model';
+import { SearchService } from './navbar.service'
 
 @Component({
     selector: 'jhi-navbar',
@@ -22,6 +25,8 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    search: Search;
+    http: Http;
 
     constructor(
         private loginService: LoginService,
@@ -32,8 +37,12 @@ export class NavbarComponent implements OnInit {
     ) {
         this.version = DEBUG_INFO_ENABLED ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
+        this.search = new Search();
     }
 
+    searchRecords(event){
+        console.log(typeof this.search)
+    }
     ngOnInit() {
 
         this.profileService.getProfileInfo().subscribe(profileInfo => {

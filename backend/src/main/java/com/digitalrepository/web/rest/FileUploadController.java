@@ -98,7 +98,7 @@ public class FileUploadController {
 
         String response = "";
 
-        Header header = recordHeaderRepository.findByRecordName(recordName);
+        Header header = recordHeaderRepository.findByRecordName(recordName).get(0);
         if(header == null)
             return null;
         response += "HEADER\n";

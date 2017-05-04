@@ -38,7 +38,7 @@ spring:
         serialization.indent_output: true
     data:
         mongodb:
-            uri: mongodb://localhost:32768
+            uri: mongodb://192.168.99.100:32768
             database: backend
     mail:
         host: localhost

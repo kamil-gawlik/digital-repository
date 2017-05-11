@@ -1,4 +1,4 @@
-package com.digitalrepository.domain;
+package com.digitalrepository.domain.schemaorg;
 
 import com.mongodb.DBObject;
 import org.springframework.data.annotation.Id;
@@ -30,8 +30,7 @@ public class SchemaOrgHeader {
         this.author = author;
         this.creator = creator;
         this.citations = citations;
-        this.dateCreated = LocalDateTime.now();
-    }
+        this.dateCreated = LocalDateTime.now();    }
 
     public String getId() {
         return id;

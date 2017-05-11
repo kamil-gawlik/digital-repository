@@ -1,6 +1,6 @@
 package com.digitalrepository.repository;
 
-import com.digitalrepository.domain.SchemaOrgHeader;
+import com.digitalrepository.domain.schemaorg.SchemaOrgHeader;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

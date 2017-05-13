@@ -1,4 +1,4 @@
-package com.digitalrepository.domain.schemaorg;
+package com.digitalrepository.domain;
 
 /**
  * Created by Piotrek on 10.05.2017.

@@ -1,6 +1,6 @@
 package com.digitalrepository.domain;
 
-import com.digitalrepository.domain.schemaorg.SchemaOrgPerson;
+import com.digitalrepository.domain.schemaorg.enums.CitationType;
 
 /**
  * A class used to map the received JSON to an object.
@@ -11,7 +11,7 @@ public class ReceivedCitation {
     /**
      * Fixed fields for every type of citation
      */
-    private String type;
+    private CitationType type;
     private String name;
     private String about;
     private String author;
@@ -54,8 +54,10 @@ public class ReceivedCitation {
      * Optional field common for ImageObject and VideoObject
      */
     private String caption;
+    private String exifData;
+    private String fileName;
 
-    public ReceivedCitation(String type,
+    public ReceivedCitation(CitationType type,
                             String name,
                             String about,
                             String author,
@@ -99,6 +101,7 @@ public class ReceivedCitation {
     public String toString() {
         return "{" +
             "\n\"type\":\"" + type + "\"" +
+            "\n\"fileName\":\"" + fileName + "\"" +
             ",\n\"name\":\"" + name + "\"" +
             ",\n\"about\":\"" + about + "\"" +
             ",\n\"author\":\"" + author + "\"" +
@@ -120,156 +123,94 @@ public class ReceivedCitation {
             "\n}";
     }
 
-    public String getType() {
+    public CitationType getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAbout() {
         return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public SchemaOrgPerson getCreator() {
         return creator;
-    }
-
-    public void setCreator(SchemaOrgPerson creator) {
-        this.creator = creator;
     }
 
     public String getFileFormat() {
         return fileFormat;
     }
 
-    public void setFileFormat(String fileFormat) {
-        this.fileFormat = fileFormat;
-    }
-
     public String getIsbn() {
         return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
     }
 
     public String getNumberOfPages() {
         return numberOfPages;
     }
 
-    public void setNumberOfPages(String numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
     public String getBookEdition() {
         return bookEdition;
-    }
-
-    public void setBookEdition(String bookEdition) {
-        this.bookEdition = bookEdition;
     }
 
     public String getArticleSection() {
         return articleSection;
     }
 
-    public void setArticleSection(String articleSection) {
-        this.articleSection = articleSection;
-    }
-
     public String getCodeRepository() {
         return codeRepository;
-    }
-
-    public void setCodeRepository(String codeRepository) {
-        this.codeRepository = codeRepository;
     }
 
     public String getProgrammingLanguage() {
         return programmingLanguage;
     }
 
-    public void setProgrammingLanguage(String programmingLanguage) {
-        this.programmingLanguage = programmingLanguage;
-    }
-
     public String getRuntimePlatform() {
         return runtimePlatform;
-    }
-
-    public void setRuntimePlatform(String runtimePlatform) {
-        this.runtimePlatform = runtimePlatform;
     }
 
     public String getByArtist() {
         return byArtist;
     }
 
-    public void setByArtist(String byArtist) {
-        this.byArtist = byArtist;
-    }
-
     public String getInAlbum() {
         return inAlbum;
-    }
-
-    public void setInAlbum(String inAlbum) {
-        this.inAlbum = inAlbum;
     }
 
     public String getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
     public SchemaOrgPerson getActor() {
         return actor;
-    }
-
-    public void setActor(SchemaOrgPerson actor) {
-        this.actor = actor;
     }
 
     public SchemaOrgPerson getDirector() {
         return director;
     }
 
-    public void setDirector(SchemaOrgPerson director) {
-        this.director = director;
-    }
-
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public String getExifData() {return exifData; }
+
+    public void setExifData(String exifData) {
+        this.exifData = exifData;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
@@ -277,31 +218,33 @@ public class ReceivedCitation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReceivedCitation that = (ReceivedCitation) o;
+        ReceivedCitation citation = (ReceivedCitation) o;
 
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (about != null ? !about.equals(that.about) : that.about != null) return false;
-        if (author != null ? !author.equals(that.author) : that.author != null) return false;
-        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
-        if (fileFormat != null ? !fileFormat.equals(that.fileFormat) : that.fileFormat != null) return false;
-        if (isbn != null ? !isbn.equals(that.isbn) : that.isbn != null) return false;
-        if (numberOfPages != null ? !numberOfPages.equals(that.numberOfPages) : that.numberOfPages != null)
+        if (type != null ? !type.equals(citation.type) : citation.type != null) return false;
+        if (name != null ? !name.equals(citation.name) : citation.name != null) return false;
+        if (about != null ? !about.equals(citation.about) : citation.about != null) return false;
+        if (author != null ? !author.equals(citation.author) : citation.author != null) return false;
+        if (creator != null ? !creator.equals(citation.creator) : citation.creator != null) return false;
+        if (fileFormat != null ? !fileFormat.equals(citation.fileFormat) : citation.fileFormat != null) return false;
+        if (isbn != null ? !isbn.equals(citation.isbn) : citation.isbn != null) return false;
+        if (numberOfPages != null ? !numberOfPages.equals(citation.numberOfPages) : citation.numberOfPages != null)
             return false;
-        if (bookEdition != null ? !bookEdition.equals(that.bookEdition) : that.bookEdition != null) return false;
-        if (articleSection != null ? !articleSection.equals(that.articleSection) : that.articleSection != null)
+        if (bookEdition != null ? !bookEdition.equals(citation.bookEdition) : citation.bookEdition != null)
             return false;
-        if (codeRepository != null ? !codeRepository.equals(that.codeRepository) : that.codeRepository != null)
+        if (articleSection != null ? !articleSection.equals(citation.articleSection) : citation.articleSection != null)
             return false;
-        if (programmingLanguage != null ? !programmingLanguage.equals(that.programmingLanguage) : that.programmingLanguage != null)
+        if (codeRepository != null ? !codeRepository.equals(citation.codeRepository) : citation.codeRepository != null)
             return false;
-        if (runtimePlatform != null ? !runtimePlatform.equals(that.runtimePlatform) : that.runtimePlatform != null)
+        if (programmingLanguage != null ? !programmingLanguage.equals(citation.programmingLanguage) : citation.programmingLanguage != null)
             return false;
-        if (byArtist != null ? !byArtist.equals(that.byArtist) : that.byArtist != null) return false;
-        if (inAlbum != null ? !inAlbum.equals(that.inAlbum) : that.inAlbum != null) return false;
-        if (duration != null ? !duration.equals(that.duration) : that.duration != null) return false;
-        if (actor != null ? !actor.equals(that.actor) : that.actor != null) return false;
-        if (director != null ? !director.equals(that.director) : that.director != null) return false;
-        return caption != null ? caption.equals(that.caption) : that.caption == null;
+        if (runtimePlatform != null ? !runtimePlatform.equals(citation.runtimePlatform) : citation.runtimePlatform != null)
+            return false;
+        if (byArtist != null ? !byArtist.equals(citation.byArtist) : citation.byArtist != null) return false;
+        if (inAlbum != null ? !inAlbum.equals(citation.inAlbum) : citation.inAlbum != null) return false;
+        if (duration != null ? !duration.equals(citation.duration) : citation.duration != null) return false;
+        if (actor != null ? !actor.equals(citation.actor) : citation.actor != null) return false;
+        if (director != null ? !director.equals(citation.director) : citation.director != null) return false;
+        if (caption != null ? !caption.equals(citation.caption) : citation.caption != null) return false;
+        return exifData != null ? exifData.equals(citation.exifData) : citation.exifData == null;
     }
 }

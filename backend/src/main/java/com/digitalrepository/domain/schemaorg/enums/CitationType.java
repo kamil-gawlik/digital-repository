@@ -5,7 +5,6 @@ package com.digitalrepository.domain.schemaorg.enums;
  */
 public enum CitationType {
     CreativeWork,
-    DigitalDocument,
     Book,
     Article,
     ImageObject,

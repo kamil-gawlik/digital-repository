@@ -1,8 +1,0 @@
-package com.digitalrepository.domain.schemaorg;
-
-/**
- * Created by Piotrek on 11.05.2017.
- */
-public class SchemaOrgHeaderFactory {
-
-}

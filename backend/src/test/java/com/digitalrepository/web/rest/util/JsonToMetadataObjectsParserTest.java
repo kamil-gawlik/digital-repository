@@ -2,7 +2,8 @@ package com.digitalrepository.web.rest.util;
 
 import com.digitalrepository.domain.ReceivedCitation;
 import com.digitalrepository.domain.ReceivedRecordHeader;
-import com.digitalrepository.domain.schemaorg.SchemaOrgPerson;
+import com.digitalrepository.domain.SchemaOrgPerson;
+import com.digitalrepository.domain.schemaorg.enums.CitationType;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class JsonToMetadataObjectsParserTest {
         "description", creator
        );
 
-    private static final ReceivedCitation citation = new ReceivedCitation("type",
+    private static final ReceivedCitation citation = new ReceivedCitation(CitationType.CreativeWork,
         "name",
         "about",
         "author",
@@ -60,6 +61,9 @@ public class JsonToMetadataObjectsParserTest {
         } catch (IOException e) {
             e.printStackTrace();
             fail();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
         }
 
         assertEquals(header, parser.getReceivedRecordHeader());
@@ -73,6 +77,11 @@ public class JsonToMetadataObjectsParserTest {
             parser.setCitationList(citationListJsonString);
         } catch (IOException e) {
             e.printStackTrace();
+            fail();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            fail();
         }
 
         List<ReceivedCitation> receivedCitationList = parser.getCitationList();

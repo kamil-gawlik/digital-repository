@@ -2,12 +2,12 @@ package com.digitalrepository.web.rest.util;
 
 import com.digitalrepository.domain.ReceivedCitation;
 import com.digitalrepository.domain.ReceivedRecordHeader;
-import com.digitalrepository.domain.schemaorg.SchemaOrgPerson;
+import com.digitalrepository.domain.SchemaOrgPerson;
+import com.digitalrepository.domain.schemaorg.enums.CitationType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,15 +27,14 @@ public class JsonToMetadataObjectsParser {
         return recordHeader;
     }
 
-    public void setRecordHeader(String recordHeader)  {
+    public void setRecordHeader(String recordHeader) throws Exception {
 
         JsonNode node;
 
         try {
             node = mapper.readTree(recordHeader);
         } catch (IOException e) {
-            e.printStackTrace();
-            return;
+            throw new Exception("JSON Parser: Error reading the record header tree: " + e.toString());
         }
 
         String name = mapper.convertValue(node.get("name"),String.class);
@@ -51,7 +50,7 @@ public class JsonToMetadataObjectsParser {
         return citationList;
     }
 
-    public void setCitationList(String citationListJsonString)  {
+    public void setCitationList(String citationListJsonString) throws Exception {
 
         JsonNode rootNode;
 
@@ -61,11 +60,25 @@ public class JsonToMetadataObjectsParser {
             e.printStackTrace();
             return;
         }
-        citationList = new LinkedList<>();
+
+//        citationList = new LinkedList<>();
+//        SchemaOrgTagsSelector selector = new SchemaOrgTagsSelector(CitationType.CreativeWork);
+//        List<String> creativeWorkTags = selector.getTags();
 
         for (JsonNode node : rootNode) {
 
-            String type = mapper.convertValue(node.get("type"),String.class);
+            String citationTypeString = mapper.convertValue(node.get("type"),String.class);
+            CitationType type = null;
+            for (CitationType citationType : CitationType.values()) {
+                if (citationType.toString().equals(citationTypeString)) {
+                    type = citationType;
+                    break;
+                }
+            }
+            if (type == null) {
+                throw new Exception("JSON Parser: Unsupported media type \"" + citationTypeString + "\" in the metadata of the citation!");
+            }
+
             String name = mapper.convertValue(node.get("name"),String.class);
             String about = mapper.convertValue(node.get("about"),String.class);
             String author = mapper.convertValue(node.get("author"),String.class);

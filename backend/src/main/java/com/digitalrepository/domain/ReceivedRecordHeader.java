@@ -1,7 +1,5 @@
 package com.digitalrepository.domain;
 
-import com.digitalrepository.domain.schemaorg.SchemaOrgPerson;
-
 /**
  * Created by Piotrek on 10.05.2017.
  */
@@ -30,6 +28,10 @@ public class ReceivedRecordHeader {
             ",\"description\":\"" + description + "\"" +
             ",\"creator\":" + creator.toString() +
             '}';
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     public String getName() {

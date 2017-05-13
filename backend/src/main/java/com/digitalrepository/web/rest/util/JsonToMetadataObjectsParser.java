@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -51,7 +52,7 @@ public class JsonToMetadataObjectsParser {
     }
 
     public void setCitationList(String citationListJsonString) throws Exception {
-
+        this.citationList = new LinkedList<>();
         JsonNode rootNode;
 
         try {

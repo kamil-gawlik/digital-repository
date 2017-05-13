@@ -35,7 +35,7 @@ public class FileUploadController {
     @Autowired
     private GridFsTemplate gridFsTemplate;
 
-    @PostMapping("/upload")
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<String> handleFileUpload(@RequestParam("filesList") List<MultipartFile> filesList,
                                                    @RequestParam("recordHeader") String recordHeader,
                                                    @RequestParam("fileHeaders") String fileHeaders){

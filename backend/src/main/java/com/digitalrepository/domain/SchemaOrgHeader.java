@@ -94,12 +94,12 @@ public class SchemaOrgHeader {
         String result = "{" +
             "\n\"id\":\"" + id + "\"" +
             ",\n\"context\":\"" + context + "\"" +
-            ",\n\"type\":" + type + '\'' +
-            ",\n\"name\":" + name + '\'' +
-            ",\n\"about\":" + about + '\'' +
-            ",\n\"author\":" + author + '\'' +
+            ",\n\"type\":\"" + type + "\"" +
+            ",\n\"name\":\"" + name + "\"" +
+            ",\n\"about\":\"" + about + "\"" +
+            ",\n\"author\":\"" + author + "\"" +
             ",\n\"creator:" + creator +
-            ",\n\"dateCreated\":" + dateCreated +
+            ",\n\"dateCreated\":" + dateCreated + "\"" +
             ",\n\"citations:[\n";
         for (int i=0; i<citations.size(); i++) {
             result += citations.get(i).toString();

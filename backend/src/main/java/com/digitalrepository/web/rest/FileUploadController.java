@@ -90,7 +90,7 @@ public class FileUploadController {
                 gridFsTemplate.store(filesList.get(i).getInputStream(), metaData);
             }
         }catch (IOException ioE){
-            return new ResponseEntity<String>("Uploading new record failed:\n" + ioE, HttpStatus.CONFLICT);
+            return new ResponseEntity<String>(UPLOAD_FAILED_MESSAGE + ": " + ioE, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<String>(schemaOrgHeader.toString(), HttpStatus.OK);
     }

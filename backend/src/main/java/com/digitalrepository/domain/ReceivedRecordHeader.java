@@ -5,6 +5,8 @@ package com.digitalrepository.domain;
  */
 public class ReceivedRecordHeader {
 
+    private static final String context = "http://schema.org";
+    private static final String type = "CreativeWork";
     private String name;
     private String about;
     private String author;
@@ -22,6 +24,8 @@ public class ReceivedRecordHeader {
     @Override
     public String toString() {
         return "{" +
+            "\"@context\":\"" + context + "\"" +
+            "\"@type\":\"" + type + "\"" +
             "\"name\":\"" + name + "\"" +
             ",\"about\":\"" + about + "\"" +
             ",\"author\":\"" + author + "\"" +

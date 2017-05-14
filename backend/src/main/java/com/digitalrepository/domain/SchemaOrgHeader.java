@@ -22,7 +22,7 @@ public class SchemaOrgHeader {
     private String author;
     private SchemaOrgPerson creator = null;
     private LocalDateTime dateCreated;
-    private List<ReceivedCitation> citations;
+    private List<String> citations;
 
     public SchemaOrgHeader() {
         this.citations = new LinkedList<>();
@@ -49,7 +49,7 @@ public class SchemaOrgHeader {
         this.dateCreated = dateCreated;
     }
 
-    public void addCitation(ReceivedCitation citation) {
+    public void addCitation(String citation) {
         this.citations.add(citation);
     }
 
@@ -85,7 +85,7 @@ public class SchemaOrgHeader {
         return dateCreated;
     }
 
-    public List<ReceivedCitation> getCitations() {
+    public List<String> getCitations() {
         return citations;
     }
 
@@ -93,8 +93,8 @@ public class SchemaOrgHeader {
     public String toString() {
         String result = "{" +
             "\n\"id\":\"" + id + "\"" +
-            ",\n\"context\":\"" + context + "\"" +
-            ",\n\"type\":\"" + type + "\"" +
+            ",\n\"@context\":\"" + context + "\"" +
+            ",\n\"@type\":\"" + type + "\"" +
             ",\n\"name\":\"" + name + "\"" +
             ",\n\"about\":\"" + about + "\"" +
             ",\n\"author\":\"" + author + "\"" +
@@ -102,7 +102,7 @@ public class SchemaOrgHeader {
             ",\n\"dateCreated\":" + dateCreated + "\"" +
             ",\n\"citations:[\n";
         for (int i=0; i<citations.size(); i++) {
-            result += citations.get(i).toString();
+            result += citations.get(i);
             if (i<citations.size()-1)
                 result += ",\n";
         }

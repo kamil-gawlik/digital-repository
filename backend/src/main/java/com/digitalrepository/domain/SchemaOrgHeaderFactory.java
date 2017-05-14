@@ -1,9 +1,7 @@
 package com.digitalrepository.domain;
 
-import com.digitalrepository.domain.ReceivedCitation;
-import com.digitalrepository.domain.ReceivedRecordHeader;
-import com.digitalrepository.domain.SchemaOrgHeader;
 import com.digitalrepository.domain.schemaorg.enums.CitationType;
+import com.digitalrepository.domain.schemaorg.enums.ImageObjectTags;
 import com.digitalrepository.web.rest.util.AbstractMetadataExtractor;
 import com.digitalrepository.web.rest.util.ImageMetadataExtractor;
 import com.mongodb.BasicDBObject;
@@ -17,7 +15,18 @@ import java.util.List;
  */
 public class SchemaOrgHeaderFactory {
 
-    public static SchemaOrgHeader createSchemaOrgHeader(ReceivedRecordHeader receivedRecordHeader, List<ReceivedCitation> receivedCitationList, List<MultipartFile> filesList) throws Exception {
+    private ReceivedRecordHeader receivedRecordHeader;
+    private List<CitationMetadata> citationMetadataList;
+    private List<MultipartFile> filesList;
+    private SchemaOrgHeader schemaOrgHeader;
+
+    public SchemaOrgHeaderFactory(ReceivedRecordHeader receivedRecordHeader, List<CitationMetadata> citationMetadataList, List<MultipartFile> filesList) {
+        this.receivedRecordHeader = receivedRecordHeader;
+        this.citationMetadataList = citationMetadataList;
+        this.filesList = filesList;
+    }
+
+    public SchemaOrgHeader getSchemaOrgHeader() throws Exception {
 
         SchemaOrgHeader recordHeader = new SchemaOrgHeader();
         recordHeader.setName(receivedRecordHeader.getName());
@@ -25,26 +34,31 @@ public class SchemaOrgHeaderFactory {
         recordHeader.setAuthor(receivedRecordHeader.getAuthor());
         recordHeader.setCreator(receivedRecordHeader.getCreator());
 
-        if( filesList.size() != receivedCitationList.size()) {
+        if( filesList.size() != citationMetadataList.size()) {
             throw new Exception("SchemaOrgHeaderFactory: Files list doesn't match the metadata list.");
         }
         for (int i=0; i<filesList.size(); i++) {
             MultipartFile file = filesList.get(i);
-            ReceivedCitation metadata = receivedCitationList.get(i);
-            metadata.setFileName(file.getOriginalFilename());
-            if (CitationType.ImageObject.equals(metadata.getType())) {
+            CitationMetadata metadata = citationMetadataList.get(i);
+            metadata.put("recordName",receivedRecordHeader.getName());
+            metadata.put("fileName",file.getOriginalFilename());
+            metadata.put("fileFormat",file.getContentType());
+            if (CitationType.ImageObject.toString().equals(metadata.getType())) {
                 AbstractMetadataExtractor amext = new ImageMetadataExtractor(file.getInputStream());
-                DBObject extractedMetadata = new BasicDBObject();
-                metadata.setExifData(extractedMetadata.toString());
                 try {
-                    extractedMetadata = amext.getMetadata();
+                    DBObject extractedMetadata = amext.getMetadata();
+                    metadata.put(ImageObjectTags.exifData.toString(), extractedMetadata.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            recordHeader.addCitation(metadata);
+            recordHeader.addCitation(metadata.toString());
         }
 
         return recordHeader;
+    }
+
+    public List<CitationMetadata> getCitationMetadataList() {
+        return this.citationMetadataList;
     }
 }

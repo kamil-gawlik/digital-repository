@@ -1,9 +1,11 @@
 package com.digitalrepository.web.rest.util;
 
-import com.digitalrepository.domain.ReceivedCitation;
+import com.digitalrepository.domain.CitationMetadata;
 import com.digitalrepository.domain.ReceivedRecordHeader;
 import com.digitalrepository.domain.SchemaOrgPerson;
 import com.digitalrepository.domain.schemaorg.enums.CitationType;
+import com.digitalrepository.domain.schemaorg.enums.CreativeWorkTags;
+import com.digitalrepository.domain.schemaorg.enums.VideoObjectTags;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,7 +19,7 @@ import java.util.List;
 public class JsonToMetadataObjectsParser {
 
     private ReceivedRecordHeader recordHeader;
-    private List<ReceivedCitation> citationList;
+    private List<CitationMetadata> citationList;
     private ObjectMapper mapper;
 
     public JsonToMetadataObjectsParser() {
@@ -42,12 +44,15 @@ public class JsonToMetadataObjectsParser {
         String about = mapper.convertValue(node.get("about"),String.class);
         String author = mapper.convertValue(node.get("author"),String.class);
         String description = mapper.convertValue(node.get("description"),String.class);
-        SchemaOrgPerson creator = mapper.convertValue(node.get("creator"), SchemaOrgPerson.class);
-
-        this.recordHeader = new ReceivedRecordHeader(name,about,author,description,creator);
+        JsonNode personNode = node.get("creator");
+        SchemaOrgPerson person = new SchemaOrgPerson();
+        for (String personTag : person.getTagsList()) {
+            person.put(personTag, mapper.convertValue(personNode.get(personTag), String.class));
+        }
+        this.recordHeader = new ReceivedRecordHeader(name,about,author,description,person);
     }
 
-    public List<ReceivedCitation> getCitationList() {
+    public List<CitationMetadata> getCitationList() {
         return citationList;
     }
 
@@ -62,13 +67,9 @@ public class JsonToMetadataObjectsParser {
             return;
         }
 
-//        citationList = new LinkedList<>();
-//        SchemaOrgTagsSelector selector = new SchemaOrgTagsSelector(CitationType.CreativeWork);
-//        List<String> creativeWorkTags = selector.getTags();
-
         for (JsonNode node : rootNode) {
 
-            String citationTypeString = mapper.convertValue(node.get("type"),String.class);
+            String citationTypeString = mapper.convertValue(node.get("@type"),String.class);
             CitationType type = null;
             for (CitationType citationType : CitationType.values()) {
                 if (citationType.toString().equals(citationTypeString)) {
@@ -80,28 +81,25 @@ public class JsonToMetadataObjectsParser {
                 throw new Exception("JSON Parser: Unsupported media type \"" + citationTypeString + "\" in the metadata of the citation!");
             }
 
-            String name = mapper.convertValue(node.get("name"),String.class);
-            String about = mapper.convertValue(node.get("about"),String.class);
-            String author = mapper.convertValue(node.get("author"),String.class);
-            SchemaOrgPerson creator = mapper.convertValue(node.get("creator"),SchemaOrgPerson.class);
-            String fileFormat = mapper.convertValue(node.get("fileFormat"),String.class);
-            String isbn = mapper.convertValue(node.get("isbn"),String.class);
-            String numberOfPages = mapper.convertValue(node.get("numberOfPages"),String.class);
-            String bookEdition = mapper.convertValue(node.get("bookEdition"),String.class);
-            String articleSection = mapper.convertValue(node.get("articleSection"),String.class);
-            String codeRepository = mapper.convertValue(node.get("codeRepository"),String.class);
-            String programmingLanguage = mapper.convertValue(node.get("programmingLanguage"),String.class);
-            String runtimePlatform = mapper.convertValue(node.get("runtimePlatform"),String.class);
-            String byArtist = mapper.convertValue(node.get("byArtist"),String.class);
-            String inAlbum = mapper.convertValue(node.get("inAlbum"),String.class);
-            String duration = mapper.convertValue(node.get("duration"),String.class);
-            SchemaOrgPerson actor = mapper.convertValue(node.get("actor"),SchemaOrgPerson.class);
-            SchemaOrgPerson director = mapper.convertValue(node.get("director"),SchemaOrgPerson.class);
-            String caption = mapper.convertValue(node.get("caption"),String.class);
+            CitationMetadata meta = new CitationMetadata(type);
 
-            this.citationList.add(new ReceivedCitation(type,name,about,author,creator,fileFormat,
-                isbn, numberOfPages,bookEdition,articleSection,codeRepository,programmingLanguage,
-                runtimePlatform,byArtist,inAlbum,duration,actor,director,caption));
+            for (String tag : meta.getTagsList()) {
+                if (tag.equals(CreativeWorkTags.creator.toString()) ||
+                    tag.equals(VideoObjectTags.actor.toString()) ||
+                    tag.equals(VideoObjectTags.director.toString())) {
+
+                    JsonNode personNode = node.get(tag);
+                    SchemaOrgPerson person = new SchemaOrgPerson();
+                    for (String personTag : person.getTagsList()) {
+                        person.put(personTag, mapper.convertValue(personNode.get(personTag), String.class));
+                    }
+                    meta.put(tag, person.toString());
+                } else {
+                    meta.put(tag, mapper.convertValue(node.get(tag), String.class));
+                }
+            }
+
+            this.citationList.add(meta);
         }
     }
 }

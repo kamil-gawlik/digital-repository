@@ -1,9 +1,6 @@
 package com.digitalrepository.web.rest;
 
-import com.digitalrepository.domain.ReceivedCitation;
-import com.digitalrepository.domain.ReceivedRecordHeader;
-import com.digitalrepository.domain.SchemaOrgHeader;
-import com.digitalrepository.domain.SchemaOrgHeaderFactory;
+import com.digitalrepository.domain.*;
 import com.digitalrepository.repository.SchemaOrgHeaderRepository;
 import com.digitalrepository.web.rest.util.JsonToMetadataObjectsParser;
 import com.mongodb.BasicDBObject;
@@ -53,14 +50,15 @@ public class FileUploadController {
 
 
         ReceivedRecordHeader receivedRecordHeader = parser.getReceivedRecordHeader();
-        List<ReceivedCitation> receivedCitationList = parser.getCitationList();
+        List<CitationMetadata> receivedCitationList = parser.getCitationList();
 
         /**
          * Create record header and add it to the Database
          */
         SchemaOrgHeader schemaOrgHeader;
         try {
-            schemaOrgHeader = SchemaOrgHeaderFactory.createSchemaOrgHeader(receivedRecordHeader, receivedCitationList, filesList);
+            SchemaOrgHeaderFactory factory = new SchemaOrgHeaderFactory(receivedRecordHeader, receivedCitationList, filesList);
+            schemaOrgHeader = factory.getSchemaOrgHeader();
         } catch (Exception e) {
             return new ResponseEntity<String>(UPLOAD_FAILED_MESSAGE +" " + e.toString(), HttpStatus.CONFLICT);
         }
@@ -69,6 +67,13 @@ public class FileUploadController {
          * Save the record header
          */
         schemaOrgHeaderRepository.save(schemaOrgHeader);
+        try {
+            for ( CitationMetadata meta : receivedCitationList)
+                meta.put("recordId", schemaOrgHeader.getId());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         try {
             //For each file included in the record
@@ -77,7 +82,7 @@ public class FileUploadController {
                  * Create metadata for the file
                  */
                 DBObject metaData = new BasicDBObject();
-                metaData.put("metadata", schemaOrgHeader.getCitations().get(i));
+                metaData.put("metadata", receivedCitationList.get(i).getMetadata());
 
                 /**
                  * Save file to the MongoDB

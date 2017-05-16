@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface SchemaOrgHeaderRepository extends MongoRepository<SchemaOrgHeader, String> {
     List<SchemaOrgHeader> findByName(String name);
+    SchemaOrgHeader findById(String id);
 }

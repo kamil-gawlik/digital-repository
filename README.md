@@ -10,5 +10,5 @@ Aby pokazać, że się wszystko gra z Twoim dostępem do repozytorium wpisz się
 + Alexander Stolar
 + Krzysztof Mikucki
 + Marcin Chajczyk
-
++ Krzysztof Dorczyński
 

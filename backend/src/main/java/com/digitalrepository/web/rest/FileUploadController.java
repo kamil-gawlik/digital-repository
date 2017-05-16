@@ -98,7 +98,7 @@ public class FileUploadController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<String> handleFileFetching(@RequestParam("record-name")String recordName){
 
-        SchemaOrgHeader header = schemaOrgHeaderRepository.findByName(recordName);
+        SchemaOrgHeader header = schemaOrgHeaderRepository.findByName(recordName).get(0);
         if(header == null)
             return new ResponseEntity<String>("Record " + recordName + " not found!", HttpStatus.CONFLICT);
 

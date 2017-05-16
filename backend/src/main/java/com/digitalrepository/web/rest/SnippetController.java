@@ -1,7 +1,8 @@
 package com.digitalrepository.web.rest;
 
+
 import com.digitalrepository.dto.SnippetDTO;
-import com.digitalrepository.repository.RecordHeaderRepository;
+import com.digitalrepository.repository.SchemaOrgHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,11 @@ import java.util.stream.Collectors;
 public class SnippetController {
 
     @Autowired
-    private RecordHeaderRepository recordHeaderRepository;
+    private SchemaOrgHeaderRepository schemaOrgHeaderRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<SnippetDTO> get(@RequestParam("record-name")String recordName){
-        return recordHeaderRepository.findByRecordName(recordName)
+        return schemaOrgHeaderRepository.findByName(recordName)
             .stream()
             .map(SnippetDTO::new)
             .collect(Collectors.toList());

@@ -23,7 +23,8 @@ export class HomeComponent implements OnInit {
     modalRef: NgbModalRef;
     http: Http;
     files: File[] = [];
-    citationType: CitationType;
+
+    citationType = CitationType;
     isAddingFile = false;
 
     constructor(
@@ -36,7 +37,6 @@ export class HomeComponent implements OnInit {
     }
 
     addFileWithTag(citationType: CitationType) {
-        console.log('asdad');
         switch (citationType) {
             case CitationType.Article: 
                 console.log('PYKA 1');

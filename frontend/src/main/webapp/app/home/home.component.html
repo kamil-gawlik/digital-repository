@@ -21,15 +21,15 @@
             <button (click)="newRecord()" type="submit" class="btn btn-primary">Add record</button>
         </div>
         <div>
-            <select [ngModel]="citationType" *ngIf="isAddingFile" (ngModelChange)="$event.target.value">
-                <option [value]="addFileWithTag(CitationType.CreativeWork)">Creative work</option>
-                <option [value]="addFileWithTag(CitationType.Article)">Article</option>
-                <option [value]="addFileWithTag(CitationType.Book)">Book</option>
-                <option [value]="addFileWithTag(CitationType.AudioObject)">Audio Object</option>
-                <option [value]="addFileWithTag(CitationType.ImageObject)">Image Object</option>
-                <option [value]="addFileWithTag(CitationType.MusicRecording)">Music Recording</option>
-                <option [value]="addFileWithTag(CitationType.SoftwareSourceCode)">Software Source Code</option>
-                <option [value]="addFileWithTag(CitationType.VideoObject)">Video Object</option>
+            <select *ngIf="isAddingFile" (change)="addFileWithTag($event.target.value)">
+                <option [ngValue]="citationType.CreativeWork">Creative work</option>
+                <option [ngValue]="citationType.Article">Article</option>
+                <option [ngValue]="citationType.Book">Book</option>
+                <option [ngValue]="citationType.AudioObject">Audio Object</option>
+                <option [ngValue]="citationType.ImageObject">Image Object</option>
+                <option [ngValue]="citationType.MusicRecording">Music Recording</option>
+                <option [ngValue]="citationType.SoftwareSourceCode">Software Source Code</option>
+                <option [ngValue]="citationType.VideoObject">Video Object</option>
             </select>
         </div>
     </div>

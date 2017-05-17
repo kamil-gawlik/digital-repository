@@ -1,5 +1,9 @@
 package com.digitalrepository.domain;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.DBObject;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
@@ -22,7 +26,7 @@ public class SchemaOrgHeader {
     private String author;
     private SchemaOrgPerson creator = null;
     private LocalDateTime dateCreated;
-    private List<String> citations;
+    private List<CitationMetadata> citations;
 
     public SchemaOrgHeader() {
         this.citations = new LinkedList<>();
@@ -49,7 +53,7 @@ public class SchemaOrgHeader {
         this.dateCreated = dateCreated;
     }
 
-    public void addCitation(String citation) {
+    public void addCitation(CitationMetadata citation) {
         this.citations.add(citation);
     }
 
@@ -85,28 +89,19 @@ public class SchemaOrgHeader {
         return dateCreated;
     }
 
-    public List<String> getCitations() {
+    public List<CitationMetadata> getCitations() {
         return citations;
     }
 
     @Override
     public String toString() {
-        String result = "{" +
-            "\n\"id\":\"" + id + "\"" +
-            ",\n\"@context\":\"" + context + "\"" +
-            ",\n\"@type\":\"" + type + "\"" +
-            ",\n\"name\":\"" + name + "\"" +
-            ",\n\"about\":\"" + about + "\"" +
-            ",\n\"author\":\"" + author + "\"" +
-            ",\n\"creator:" + creator +
-            ",\n\"dateCreated\":" + dateCreated + "\"" +
-            ",\n\"citations:[\n";
-        for (int i=0; i<citations.size(); i++) {
-            result += citations.get(i);
-            if (i<citations.size()-1)
-                result += ",\n";
+        ObjectMapper mapper = new ObjectMapper();
+        String result = null;
+        try {
+            result = mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
-        result += "\n]\n}";
         return result;
     }
 }

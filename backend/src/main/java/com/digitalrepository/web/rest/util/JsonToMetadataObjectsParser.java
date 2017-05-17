@@ -47,7 +47,7 @@ public class JsonToMetadataObjectsParser {
         JsonNode personNode = node.get("creator");
         SchemaOrgPerson person = new SchemaOrgPerson();
         for (String personTag : person.getTagsList()) {
-            person.put(personTag, mapper.convertValue(personNode.get(personTag), String.class));
+            person.addData(personTag, mapper.convertValue(personNode.get(personTag), String.class));
         }
         this.recordHeader = new ReceivedRecordHeader(name,about,author,description,person);
     }
@@ -91,11 +91,11 @@ public class JsonToMetadataObjectsParser {
                     JsonNode personNode = node.get(tag);
                     SchemaOrgPerson person = new SchemaOrgPerson();
                     for (String personTag : person.getTagsList()) {
-                        person.put(personTag, mapper.convertValue(personNode.get(personTag), String.class));
+                        person.addData(personTag, mapper.convertValue(personNode.get(personTag), String.class));
                     }
-                    meta.put(tag, person.toString());
+                    meta.addData(tag, person);
                 } else {
-                    meta.put(tag, mapper.convertValue(node.get(tag), String.class));
+                    meta.addData(tag, mapper.convertValue(node.get(tag), String.class));
                 }
             }
 

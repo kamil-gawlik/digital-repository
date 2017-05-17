@@ -11,16 +11,15 @@ import java.util.List;
 /**
  * Created by Piotrek on 14.05.2017.
  */
-public class CitationMetadata {
+public class CitationMetadata extends BasicDBObject{
 
-    private DBObject metadata;
     private List<String> tagsList;
     private List<String> addedTags;
 
     public CitationMetadata(CitationType type) {
-        this.metadata = new BasicDBObject();
-        this.metadata.put("@context", "http://schema.org");
-        this.metadata.put("@type", type.toString());
+        super();
+        this.put("@context", "http://schema.org");
+        this.put("@type", type.toString());
         this.addedTags = new LinkedList<>();
         this.addedTags.add("@context");
         this.addedTags.add("@type");
@@ -36,12 +35,8 @@ public class CitationMetadata {
         this.tagsList.add("recordId");
     }
 
-    public DBObject getMetadata() {
-        return metadata;
-    }
-
     public String getType() {
-        return (String) this.metadata.get("@type");
+        return (String) this.get("@type");
     }
 
     private boolean isValidTag(String tag) {
@@ -53,43 +48,22 @@ public class CitationMetadata {
         return false;
     }
 
-    public void put(String key, Object value) throws Exception {
+    public void addData(String key, Object value) throws Exception {
         if (!isValidTag(key))
-            throw new Exception(CitationMetadata.class.getName() + ": invalid tag in put() method!");
-        this.metadata.put(key,value);
+            throw new Exception(CitationMetadata.class.getName() + ": invalid tag in addData() method!");
+        this.put(key,value);
         if (value != null) {
             this.addedTags.add(key);
         }
     }
 
-    public Object getValue(String key) throws Exception {
+    public Object getData(String key) throws Exception {
         if (!isValidTag(key))
-            throw new Exception(CitationMetadata.class.getName() + ": invalid tag in getValue() method!");
-        return this.metadata.get(key);
+            throw new Exception(CitationMetadata.class.getName() + ": invalid tag in getData() method!");
+        return this.get(key);
     }
 
     public List<String> getTagsList() {
         return tagsList;
-    }
-
-    @Override
-    public String toString() {
-        String result = "{\n";
-        int i = 0;
-        for (String tag : this.addedTags) {
-            Object o = this.metadata.get(tag);
-            if (o != null) {
-                if (i !=  0)
-                    result+=",\n";
-                if ("exifData".equals(tag) || "creator".equals(tag) || "actor".equals(tag) || "director".equals(tag))
-                    result += "\"" + tag + "\":" + o.toString();
-                else
-                    result += "\"" + tag + "\":\"" + o + "\"";
-            }
-            i++;
-        }
-
-        result += "\n}";
-        return result;
     }
 }

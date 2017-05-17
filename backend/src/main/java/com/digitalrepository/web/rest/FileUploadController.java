@@ -69,7 +69,7 @@ public class FileUploadController {
         schemaOrgHeaderRepository.save(schemaOrgHeader);
         try {
             for ( CitationMetadata meta : receivedCitationList)
-                meta.put("recordId", schemaOrgHeader.getId());
+                meta.addData("recordId", schemaOrgHeader.getId());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -79,15 +79,9 @@ public class FileUploadController {
             //For each file included in the record
             for (int i=0; i<filesList.size(); i++){
                 /**
-                 * Create metadata for the file
-                 */
-                DBObject metaData = new BasicDBObject();
-                metaData.put("metadata", receivedCitationList.get(i).getMetadata());
-
-                /**
                  * Save file to the MongoDB
                  */
-                gridFsTemplate.store(filesList.get(i).getInputStream(), metaData);
+                gridFsTemplate.store(filesList.get(i).getInputStream(), receivedCitationList.get(i));
             }
         }catch (IOException ioE){
             return new ResponseEntity<String>(UPLOAD_FAILED_MESSAGE + ": " + ioE, HttpStatus.CONFLICT);

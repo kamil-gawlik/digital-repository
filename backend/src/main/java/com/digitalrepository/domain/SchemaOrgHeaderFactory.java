@@ -4,7 +4,6 @@ import com.digitalrepository.domain.schemaorg.enums.CitationType;
 import com.digitalrepository.domain.schemaorg.enums.ImageObjectTags;
 import com.digitalrepository.web.rest.util.AbstractMetadataExtractor;
 import com.digitalrepository.web.rest.util.ImageMetadataExtractor;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,19 +39,19 @@ public class SchemaOrgHeaderFactory {
         for (int i=0; i<filesList.size(); i++) {
             MultipartFile file = filesList.get(i);
             CitationMetadata metadata = citationMetadataList.get(i);
-            metadata.put("recordName",receivedRecordHeader.getName());
-            metadata.put("fileName",file.getOriginalFilename());
-            metadata.put("fileFormat",file.getContentType());
+            metadata.addData("recordName",receivedRecordHeader.getName());
+            metadata.addData("fileName",file.getOriginalFilename());
+            metadata.addData("fileFormat",file.getContentType());
             if (CitationType.ImageObject.toString().equals(metadata.getType())) {
                 AbstractMetadataExtractor amext = new ImageMetadataExtractor(file.getInputStream());
                 try {
                     DBObject extractedMetadata = amext.getMetadata();
-                    metadata.put(ImageObjectTags.exifData.toString(), extractedMetadata.toString());
+                    metadata.addData(ImageObjectTags.exifData.toString(), extractedMetadata);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            recordHeader.addCitation(metadata.toString());
+            recordHeader.addCitation(metadata);
         }
 
         return recordHeader;

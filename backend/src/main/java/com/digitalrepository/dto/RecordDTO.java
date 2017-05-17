@@ -1,7 +1,9 @@
 package com.digitalrepository.dto;
 
+import com.digitalrepository.domain.CitationMetadata;
 import com.digitalrepository.domain.SchemaOrgHeader;
 import com.digitalrepository.domain.SchemaOrgPerson;
+import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 
 import java.time.LocalDateTime;
@@ -18,7 +20,7 @@ public class RecordDTO {
     private String author;
     private SchemaOrgPerson creator = null;
     private LocalDateTime dateCreated;
-    private List<String> citations;
+    private List<CitationMetadata> citations;
     private List<String> filesNames;
 
     public RecordDTO(SchemaOrgHeader header, List<GridFSDBFile> files) {
@@ -58,7 +60,7 @@ public class RecordDTO {
         return dateCreated;
     }
 
-    public List<String> getCitations() {
+    public List<CitationMetadata> getCitations() {
         return citations;
     }
 

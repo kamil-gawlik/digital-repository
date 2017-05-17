@@ -1,7 +1,10 @@
 package com.digitalrepository.dto;
 
 
+import com.digitalrepository.domain.CitationMetadata;
 import com.digitalrepository.domain.SchemaOrgHeader;
+import com.mongodb.DB;
+import com.mongodb.DBObject;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +18,7 @@ public class SnippetDTO {
     private String author;
     private String description;
     private LocalDateTime created;
-    private List<String> citations;
+    private List<CitationMetadata> citations;
 
     public SnippetDTO(SchemaOrgHeader schemaOrgHeader) {
         this.id = schemaOrgHeader.getId();
@@ -43,7 +46,7 @@ public class SnippetDTO {
         return description;
     }
 
-    public List<String> getCitations() {
+    public List<CitationMetadata> getCitations() {
         return citations;
     }
 

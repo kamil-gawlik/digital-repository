@@ -34,9 +34,7 @@ public class RecordController {
     @RequestMapping(method = RequestMethod.GET)
     public RecordDTO getRecord(@RequestParam("record-id") String recordId){
         SchemaOrgHeader header = schemaOrgHeaderRepository.findById(recordId);
-        List<GridFSDBFile> files = gridFsTemplate.find(new Query().addCriteria(
-            Criteria.where("metadata.recordId").is(recordId)
-        ));
+        List<GridFSDBFile> files = gridFsTemplate.find(new Query(Criteria.where("metadata.recordId").is(recordId)));
         return new RecordDTO(header, files);
     }
 

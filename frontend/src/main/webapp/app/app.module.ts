@@ -23,6 +23,7 @@ import {
     PageRibbonComponent,
     ErrorComponent
 } from './layouts';
+import { AddNewRecordComponent } from './add-new-record/add-new-record.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent
+        FooterComponent,
+        AddNewRecordComponent
     ],
     providers: [
         ProfileService,

@@ -18,7 +18,7 @@ import {RecordService} from './home.service';
         HomeComponent
     ],
     entryComponents: [
-       
+
     ],
     providers: [
         RecordService

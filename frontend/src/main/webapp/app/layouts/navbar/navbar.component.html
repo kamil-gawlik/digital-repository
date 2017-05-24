@@ -5,9 +5,10 @@
         </a>
     </div>
     <div>
-        <a class="nav-link" routerLink="addNewRecord" routerLinkActive="active">
+        <a class="nav-link" routerLink="/add-new-rec" routerLinkActive="active">
             <span class="navbar-brand">Add new record</span>
         </a>
+        <router-outlet></router-outlet>
     </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">

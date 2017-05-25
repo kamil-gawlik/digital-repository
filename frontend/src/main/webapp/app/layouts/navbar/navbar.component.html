@@ -5,9 +5,11 @@
         </a>
     </div>
     <div>
+        <!--
         <a class="nav-link" routerLink="addNewRecord" routerLinkActive="active">
             <span class="navbar-brand">Add new record</span>
         </a>
+        -->
     </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
@@ -25,7 +27,7 @@
                         <span>
                             Entities
                         </span>
-                        <b class="caret"></b>
+                    <b class="caret"></b>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
@@ -37,7 +39,7 @@
                     <span>
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                         <span>Administration</span>
-                        <b class="caret"></b>
+                    <b class="caret"></b>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
@@ -100,14 +102,14 @@
             </li>
             <li ngbDropdown class="nav-item dropdown pointer">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
-                  <span *ngIf="!getImageUrl()">
+                    <span *ngIf="!getImageUrl()">
                     <i class="fa fa-user" aria-hidden="true"></i>
                     <span>
                       Account
                     </span>
                     <b class="caret"></b>
-                  </span>
-                  <span *ngIf="getImageUrl()">
+                    </span>
+                    <span *ngIf="getImageUrl()">
                       <img [src]="getImageUrl()" class="profile-image img-circle" alt="Avatar">
                   </span>
                 </a>

@@ -15,6 +15,10 @@ import { LayoutRoutingModule } from './layouts';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
+import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { ResultViewComponent } from './result-view/result-view.component';
+
 import {
     JhiMainComponent,
     NavbarComponent,
@@ -29,19 +33,24 @@ import {
     imports: [
         BrowserModule,
         LayoutRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         FrontendSharedModule,
         FrontendHomeModule,
         FrontendAdminModule,
         FrontendAccountModule,
-        FrontendEntityModule
+        FrontendEntityModule,
+
+        FormsModule
     ],
     declarations: [
         JhiMainComponent,
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent
+        FooterComponent,
+
+        HomeComponent,
+        ResultViewComponent
     ],
     providers: [
         ProfileService,
@@ -51,6 +60,6 @@ import {
         PaginationConfig,
         UserRouteAccessService
     ],
-    bootstrap: [ JhiMainComponent ]
+    bootstrap: [JhiMainComponent]
 })
-export class FrontendAppModule {}
+export class FrontendAppModule { }

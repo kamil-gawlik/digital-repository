@@ -1,9 +1,13 @@
 package com.digitalrepository.domain;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.DBObject;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,17 +24,37 @@ public class SchemaOrgHeader {
     private String name;
     private String about;
     private String author;
-    private DBObject creator = null;
+    private SchemaOrgPerson creator = null;
     private LocalDateTime dateCreated;
-    private List<DBObject> citations;
+    private List<CitationMetadata> citations;
 
-    public SchemaOrgHeader(String name, String about, String author, DBObject creator, List<DBObject> citations) {
-        this.name = name;
-        this.about = about;
-        this.author = author;
-        this.creator = creator;
-        this.citations = citations;
+    public SchemaOrgHeader() {
+        this.citations = new LinkedList<>();
         this.dateCreated = LocalDateTime.now();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCreator(SchemaOrgPerson creator) {
+        this.creator = creator;
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void addCitation(CitationMetadata citation) {
+        this.citations.add(citation);
     }
 
     public String getId() {
@@ -57,7 +81,7 @@ public class SchemaOrgHeader {
         return author;
     }
 
-    public DBObject getCreator() {
+    public SchemaOrgPerson getCreator() {
         return creator;
     }
 
@@ -65,7 +89,19 @@ public class SchemaOrgHeader {
         return dateCreated;
     }
 
-    public List<DBObject> getCitations() {
+    public List<CitationMetadata> getCitations() {
         return citations;
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        String result = null;
+        try {
+            result = mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

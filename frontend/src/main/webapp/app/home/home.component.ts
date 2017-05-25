@@ -6,6 +6,7 @@ import { Http } from '@angular/http';
 import { Account, LoginModalService, Principal } from '../shared';
 import { Record } from '../shared/record.model';
 import { RecordService } from './home.service';
+import { CitationType } from './home.citationType';
 
 import { Snippet } from '../snippet/snippet';
 // import { Ng2PopupModule } from 'ng2-popup';
@@ -28,6 +29,7 @@ const SNIPPET_3: Snippet = { name: 'kod zrodlowy', about: 'program', author: 'mi
     ]
 
 })
+
 export class HomeComponent implements OnInit {
 
     private isOn: boolean = false;
@@ -58,6 +60,9 @@ export class HomeComponent implements OnInit {
         this.detailsName = snippetName;
     }
 
+    citationType = CitationType;
+    isAddingFile = false;
+
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
@@ -67,12 +72,42 @@ export class HomeComponent implements OnInit {
         this.record = new Record();
     }
 
+    addFileWithTag(citationType: CitationType) {
+        switch (citationType) {
+            case CitationType.Article: 
+                console.log('PYKA 1');
+                break;
+            case CitationType.AudioObject:
+                console.log('PYKA TEJ 2');
+                break;
+            case CitationType.Book:
+                console.log('PYKA TEJ 3');
+                break;
+            case CitationType.CreativeWork:
+                console.log('PYKA TEJ 4');
+                break;
+            case CitationType.ImageObject:
+                console.log('PYKA TEJ 5');
+                break;
+            case CitationType.MusicRecording: 
+                console.log('PYKA TEJ 6');
+                break;
+            case CitationType.SoftwareSourceCode:
+                console.log('PYKA TEJ 7');
+                break;
+            case CitationType.VideoObject:
+                console.log('PYKA TEJ 8');
+                break;
+        }
+    }
+
     newRecord(event) {
         console.log(typeof this.recordService);
         this.recordService.addRecord(this.record);
     }
 
     fileChange(event: any, input: any) {
+        this.isAddingFile = true;
         this.files.push(event.target.files[0]);
         this.record.file = event.target.files[0];
         let files = [].slice.call(event.target.files);

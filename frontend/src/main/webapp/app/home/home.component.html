@@ -45,5 +45,17 @@
                 </div>
             </div>
         </div>
+        <div>
+            <select *ngIf="isAddingFile" (change)="addFileWithTag($event.target.value)">
+                <option [ngValue]="citationType.CreativeWork">Creative work</option>
+                <option [ngValue]="citationType.Article">Article</option>
+                <option [ngValue]="citationType.Book">Book</option>
+                <option [ngValue]="citationType.AudioObject">Audio Object</option>
+                <option [ngValue]="citationType.ImageObject">Image Object</option>
+                <option [ngValue]="citationType.MusicRecording">Music Recording</option>
+                <option [ngValue]="citationType.SoftwareSourceCode">Software Source Code</option>
+                <option [ngValue]="citationType.VideoObject">Video Object</option>
+            </select>
+        </div>
     </div>
 </div>

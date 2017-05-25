@@ -1,6 +1,13 @@
 package com.digitalrepository.dto;
 
-import com.digitalrepository.domain.Header;
+
+import com.digitalrepository.domain.CitationMetadata;
+import com.digitalrepository.domain.SchemaOrgHeader;
+import com.mongodb.DB;
+import com.mongodb.DBObject;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by Adas on 2017-05-04.
@@ -8,17 +15,20 @@ import com.digitalrepository.domain.Header;
 public class SnippetDTO {
     private String id;
     private String recordName;
-    private String user;
+    private String author;
     private String description;
-    private int attachmentsCount;
+    private LocalDateTime created;
+    private List<CitationMetadata> citations;
 
-    public SnippetDTO(Header header) {
-        this.id = header.getId();
-        this.recordName = header.getRecordName();
-        this.user = header.getUser();
-        this.description = header.getDescription();
-        this.attachmentsCount = header.getFileLinks().size();
+    public SnippetDTO(SchemaOrgHeader schemaOrgHeader) {
+        this.id = schemaOrgHeader.getId();
+        this.recordName = schemaOrgHeader.getName();
+        this.author = schemaOrgHeader.getAbout();
+        this.description = schemaOrgHeader.getAbout();
+        this.citations = schemaOrgHeader.getCitations();
+        this.created = schemaOrgHeader.getDateCreated();
     }
+
 
     public String getId() {
         return id;
@@ -28,15 +38,19 @@ public class SnippetDTO {
         return recordName;
     }
 
-    public String getUser() {
-        return user;
+    public String getAuthor() {
+        return author;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public int getAttachmentsCount() {
-        return attachmentsCount;
+    public List<CitationMetadata> getCitations() {
+        return citations;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
     }
 }

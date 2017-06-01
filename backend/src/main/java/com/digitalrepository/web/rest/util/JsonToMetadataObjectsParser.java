@@ -69,7 +69,7 @@ public class JsonToMetadataObjectsParser {
 
         for (JsonNode node : rootNode) {
 
-            String citationTypeString = mapper.convertValue(node.get("@type"),String.class);
+            String citationTypeString = mapper.convertValue(node.get("type"),String.class);
             CitationType type = null;
             for (CitationType citationType : CitationType.values()) {
                 if (citationType.toString().equals(citationTypeString)) {

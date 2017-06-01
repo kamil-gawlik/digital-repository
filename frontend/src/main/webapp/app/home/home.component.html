@@ -1,24 +1,49 @@
 <div class="row">
     <div class="col-md-8 offset-md-2">
-        <div class="form-group">
-            <label class="form-control-label">Record name</label>
-            <input type="text" class="form-control" required [ngModel]="record?.recordName" (ngModelChange)="record.recordName = $event" placeholder="Name the record" name="recordName">
-        </div>
-        <div class="form-group">
-            <label class="form-control-label">Author</label>
-            <input type="text" class="form-control" required [ngModel]="record?.user" (ngModelChange)="record.user = $event" placeholder="Name the author" name="user">
-        </div>
-        <div class="form-group">
-            <label class="form-control-label">Description</label>
-            <input type="text" class="form-control" required [ngModel]="record?.description" (ngModelChange)="record.description = $event" placeholder="Describe the record" name="description">
-        </div>
-        <div class="form-group">
-            <label class="form-control-label">Files</label>
-            <input type="file" class="form-control" multiple (change)="fileChange($event, showFileNames)" placeholder="File to upload" name="file"/>
-            <input #showFileNames />
-        </div>
+        <input type="text" class="form-control" placeholder="enter keywords here">
+        <button class="btn btn-primary" (click)="setState()">{{ getButtonText() }}</button>
         <div>
-            <button (click)="newRecord()" type="submit" class="btn btn-primary">Add record</button>
+            <br>
+            <div *ngIf="!isOn">
+                <div class="form-group">
+                    <label class="form-control-label">Record name</label>
+                    <input type="text" class="form-control" required [ngModel]="record?.recordName" (ngModelChange)="record.recordName = $event"
+                        placeholder="Name the record" name="recordName">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Author</label>
+                    <input type="text" class="form-control" required [ngModel]="record?.user" (ngModelChange)="record.user = $event" placeholder="Name the author"
+                        name="user">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Description</label>
+                    <input type="text" class="form-control" required [ngModel]="record?.description" (ngModelChange)="record.description = $event"
+                        placeholder="Describe the record" name="description">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Files</label>
+                    <input type="file" class="form-control" multiple (change)="fileChange($event, showFileNames)" placeholder="File to upload"
+                        name="file" />
+                    <input #showFileNames />
+                </div>
+                <div>
+                    <button (click)="newRecord()" type="submit" class="btn btn-primary">Add record</button>
+                </div>
+            </div>
+            <div *ngIf="isOn">
+                <div class="col-md-8 offset-md-2">
+                    <div class="form-group">
+                        <option *ngFor="let snippet of snippets" [ngValue]="snippet">
+                            <label class="form-control">Name: {{snippet.name}}<br>abstract: {{snippet.about}}<br>author: {{snippet.author}}<br><button (click)="showDetails(snippet.name)">{{ getDetails() }}</button></label>
+                            <br>
+                        </option>
+                        <div *ngIf="showDetailsIsOn">
+                            <label class="form-control">Details:<br>{{ detailsName }}</label>
+                        </div>
+                        <jhi-result-view></jhi-result-view>
+                    </div>
+                </div>
+            </div>
         </div>
         <div>
             <select *ngIf="isAddingFile" (change)="addFileWithTag($event.target.value)">

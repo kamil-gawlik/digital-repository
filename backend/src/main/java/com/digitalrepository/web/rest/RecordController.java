@@ -44,8 +44,11 @@ public class RecordController {
     }
 
 
+    /**
+     *  Returns all records attachments as ZIP file
+     */
     @RequestMapping(value = "/zip", produces = "application/zip")
-    public void getZip(@RequestParam("record-id") String recordId, HttpServletResponse response) throws IOException {
+    public void getZip(@RequestParam("record-id") String recordId, HttpServletResponse response) {
         List<GridFSDBFile> files = gridFsTemplate.find(new Query(Criteria.where("metadata.recordId").is(recordId)));
 
         if (files.isEmpty()) {
@@ -55,7 +58,11 @@ public class RecordController {
         String recordName = extractRecordName(files);
         prepareResponse(response, recordName);
 
-        zipService.makeAndForwardZip(files, response);
+        try {
+            zipService.makeAndForwardZip(files, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

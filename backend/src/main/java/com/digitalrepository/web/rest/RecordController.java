@@ -48,6 +48,10 @@ public class RecordController {
     public void getZip(@RequestParam("record-id") String recordId, HttpServletResponse response) throws IOException {
         List<GridFSDBFile> files = gridFsTemplate.find(new Query(Criteria.where("metadata.recordId").is(recordId)));
 
+        if (files.isEmpty()) {
+            return;
+        }
+
         String recordName = extractRecordName(files);
         prepareResponse(response, recordName);
 

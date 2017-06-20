@@ -6,6 +6,7 @@ import com.digitalrepository.domain.SchemaOrgPerson;
 import com.digitalrepository.domain.schemaorg.enums.CitationType;
 import com.digitalrepository.domain.schemaorg.enums.CreativeWorkTags;
 import com.digitalrepository.domain.schemaorg.enums.VideoObjectTags;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,6 +25,7 @@ public class JsonToMetadataObjectsParser {
 
     public JsonToMetadataObjectsParser() {
         this.mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
     }
 
     public ReceivedRecordHeader getReceivedRecordHeader() {

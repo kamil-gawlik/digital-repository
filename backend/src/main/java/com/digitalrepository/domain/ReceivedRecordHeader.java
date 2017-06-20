@@ -1,5 +1,7 @@
 package com.digitalrepository.domain;
 
+import com.digitalrepository.domain.schemaorg.enums.ReviewStatus;
+
 /**
  * Created by Piotrek on 10.05.2017.
  */
@@ -11,14 +13,18 @@ public class ReceivedRecordHeader {
     private String about;
     private String author;
     private String description;
+    private String reviewedBy;
+    private ReviewStatus reviewStatus;
     private SchemaOrgPerson creator;
 
-    public ReceivedRecordHeader(String name, String about, String author, String description, SchemaOrgPerson creator) {
+    public ReceivedRecordHeader(String name, String about, String author, String description, SchemaOrgPerson creator, String reviewedBy, ReviewStatus reviewStatus) {
         this.name = name;
         this.about = about;
         this.author = author;
         this.description = description;
         this.creator = creator;
+        this.reviewedBy = reviewedBy;
+        this.reviewStatus = reviewStatus;
     }
 
     @Override
@@ -74,5 +80,21 @@ public class ReceivedRecordHeader {
         if (author != null ? !author.equals(that.author) : that.author != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         return creator != null ? creator.equals(that.creator) : that.creator == null;
+    }
+
+    public String getReviewedBy() {
+        return reviewedBy;
+    }
+
+    public void setReviewedBy(String reviewedBy) {
+        this.reviewedBy = reviewedBy;
+    }
+
+    public ReviewStatus getReviewStatus() {
+        return reviewStatus;
+    }
+
+    public void setReviewStatus(ReviewStatus reviewStatus) {
+        this.reviewStatus = reviewStatus;
     }
 }

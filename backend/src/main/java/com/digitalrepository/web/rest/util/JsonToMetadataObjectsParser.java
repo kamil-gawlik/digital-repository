@@ -5,6 +5,7 @@ import com.digitalrepository.domain.ReceivedRecordHeader;
 import com.digitalrepository.domain.SchemaOrgPerson;
 import com.digitalrepository.domain.schemaorg.enums.CitationType;
 import com.digitalrepository.domain.schemaorg.enums.CreativeWorkTags;
+import com.digitalrepository.domain.schemaorg.enums.ReviewStatus;
 import com.digitalrepository.domain.schemaorg.enums.VideoObjectTags;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,12 +45,14 @@ public class JsonToMetadataObjectsParser {
         String about = mapper.convertValue(node.get("about"),String.class);
         String author = mapper.convertValue(node.get("author"),String.class);
         String description = mapper.convertValue(node.get("description"),String.class);
+        String reviewedBy = mapper.convertValue(node.get("reviewed_by"),String.class);
+        ReviewStatus reviewStatus = mapper.convertValue(node.get("review_status"),ReviewStatus.class);
         JsonNode personNode = node.get("creator");
         SchemaOrgPerson person = new SchemaOrgPerson();
         for (String personTag : person.getTagsList()) {
             person.addData(personTag, mapper.convertValue(personNode.get(personTag), String.class));
         }
-        this.recordHeader = new ReceivedRecordHeader(name,about,author,description,person);
+        this.recordHeader = new ReceivedRecordHeader(name,about,author,description,person,reviewedBy,reviewStatus);
     }
 
     public List<CitationMetadata> getCitationList() {
